@@ -592,6 +592,70 @@ class ValidationValidatorTest extends TestCase
         $this->assertSame('User ID is required!', $v->messages()->first('users.0.id'));
     }
 
+    public function test_validation_attributes_are_set()
+    {
+        // $source = ['foo' => 'bar'];
+        // $name = '0'; as key does not exists in $source. -> ":value" is replaced with "0".
+        $trans = $this->getIlluminateArrayTranslator();
+        $trans->addLines(['validation.gt.numeric' => ':attribute is greater than :value.'], 'en');
+        $trans->addLines(['validation.attributes' => ['foo' => 'bar']], 'en');
+        $v = new Validator($trans, ['total' => 0], ['total' => 'gt:0']);
+        $this->assertSame("total is greater than 0.", $v->messages()->first('total'));
+    }
+
+    public function test_comparison_value_is_not_zero()
+    {
+        // $source = [0 => 'validation.attributes'];
+        // $name = '1' or '-1'; as key does not exists in $source. -> ":value" is replaced with "1" or "-1".
+
+        $trans = $this->getIlluminateArrayTranslator();
+        $trans->addLines(['validation.gt.numeric' => ':attribute is greater than :value.'], 'en');
+
+        $v = new Validator($trans, ['total' => 1], ['total' => 'gt:1']);
+        $this->assertSame("total is greater than 1.", $v->messages()->first('total'));
+
+        $v = new Validator($trans, ['total' => -1], ['total' => 'gt:-1']);
+        $this->assertSame("total is greater than -1.", $v->messages()->first('total'));
+    }
+
+    public function test_validation_attributes_contain_0_as_key()
+    {
+        // $source = [0 => 'Integer Zero'];
+        // $name = '0'; as key exists in $source. -> ":value" is replaced with "Integer Zero"
+        $trans = $this->getIlluminateArrayTranslator();
+        $trans->addLines(['validation.gt.numeric' => ':attribute is greater than :value.'], 'en');
+        $trans->addLines(['validation.attributes' => [0 => 'Integer Zero']], 'en');
+        $v = new Validator($trans, ['total' => 0], ['total' => 'gt:0']);
+        $this->assertSame("total is greater than Integer Zero.", $v->messages()->first('total'));
+
+// $source = ['0' => 'String Zero'];
+        // $name = '0'; as key exists in $source. -> ":value" is replaced with "String Zero"
+        $trans = $this->getIlluminateArrayTranslator();
+        $trans->addLines(['validation.gt.numeric' => ':attribute is greater than :value.'], 'en');
+        $trans->addLines(['validation.attributes' => ['0' => 'String Zero']], 'en');
+        $v = new Validator($trans, ['total' => 0], ['total' => 'gt:0']);
+        $this->assertSame("total is greater than String Zero.", $v->messages()->first('total'));
+    }
+
+
+    public function testInlineCustomAttribute()
+    {
+        $trans = $this->getIlluminateArrayTranslator();
+        $trans->addLines(['validation.gt.numeric' => ':attribute must be greater than :value.'], 'en');
+        $trans->addLines(['validation.attributes.total' => 'Global Custom Field'], 'en');
+        $v = new Validator($trans, ['total' => 0], ['total' => 'gt:0'], [], ['total' => 'Inline Custom Field']);
+        $this->assertSame("Inline Custom Field must be greater than 0.", $v->messages()->first('total'));
+    }
+
+    public function testGlobalCustomAttribute()
+    {
+        $trans = $this->getIlluminateArrayTranslator();
+        $trans->addLines(['validation.gt.numeric' => ':attribute must be greater than :value.'], 'en');
+        $trans->addLines(['validation.attributes.total' => 'Global Custom Field'], 'en');
+        $v = new Validator($trans, ['total' => 0], ['total' => 'gt:0'], [], []);
+        $this->assertSame("Global Custom Field must be greater than 0.", $v->messages()->first('total'));
+    }
+
     public function testInputIsReplaced()
     {
         $trans = $this->getIlluminateArrayTranslator();
