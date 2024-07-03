@@ -2,11 +2,12 @@
 
 namespace Illuminate\Validation\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\ValidatorAwareRule;
 use Illuminate\Support\Facades\Gate;
 
-class Can implements Rule, ValidatorAwareRule
+class Can implements ValidatorAwareRule, ValidationRule
 {
     /**
      * The ability to check.
@@ -42,36 +43,6 @@ class Can implements Rule, ValidatorAwareRule
     }
 
     /**
-     * Determine if the validation rule passes.
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @return bool
-     */
-    public function passes($attribute, $value)
-    {
-        $arguments = $this->arguments;
-
-        $model = array_shift($arguments);
-
-        return Gate::allows($this->ability, array_filter([$model, ...$arguments, $value]));
-    }
-
-    /**
-     * Get the validation error message.
-     *
-     * @return array
-     */
-    public function message()
-    {
-        $message = $this->validator->getTranslator()->get('validation.can');
-
-        return $message === 'validation.can'
-            ? ['The :attribute field contains an unauthorized value.']
-            : $message;
-    }
-
-    /**
      * Set the current validator.
      *
      * @param  \Illuminate\Validation\Validator  $validator
@@ -82,5 +53,28 @@ class Can implements Rule, ValidatorAwareRule
         $this->validator = $validator;
 
         return $this;
+    }
+
+    /**
+     * Run the validation rule.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
+     * @return void
+     */
+    public function validate(string $attribute, mixed $value, Closure $fail): void
+    {
+        $arguments = $this->arguments;
+
+        $model = array_shift($arguments);
+
+        $passes = Gate::allows($this->ability, array_filter([$model, ...$arguments, $value]));
+
+        if (! $passes) {
+            $message = $this->validator->getTranslator()->get('validation.can');
+
+            $fail($message === 'validation.can' ? 'The :attribute field contains an unauthorized value.' : $message);
+        }
     }
 }
