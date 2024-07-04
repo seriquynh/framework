@@ -1,13 +1,13 @@
 <?php
 
-namespace Illuminate\Tests\Validation;
+namespace Illuminate\Tests\Validation\Rules;
 
 use Exception;
 use Illuminate\Validation\Rules\RequiredIf;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
-class ValidationRequiredIfTest extends TestCase
+class RequiredIfRuleTest extends TestCase
 {
     public function testItClosureReturnsFormatsAStringVersionOfTheRule()
     {

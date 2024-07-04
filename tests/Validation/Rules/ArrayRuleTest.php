@@ -1,13 +1,15 @@
 <?php
 
-namespace Illuminate\Tests\Validation;
+namespace Illuminate\Tests\Validation\Rules;
 
+use Illuminate\Tests\Validation\ArrayKeys;
+use Illuminate\Tests\Validation\ArrayKeysBacked;
 use Illuminate\Validation\Rule;
 use PHPUnit\Framework\TestCase;
 
-include_once 'Enums.php';
+include_once __DIR__ . '/../Enums.php';
 
-class ValidationArrayRuleTest extends TestCase
+class ArrayRuleTest extends TestCase
 {
     public function testItCorrectlyFormatsAStringVersionOfTheRule()
     {

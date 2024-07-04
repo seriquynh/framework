@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Tests\Validation;
+namespace Illuminate\Tests\Validation\Rules;
 
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Validation\Rule as RuleContract;
@@ -12,7 +12,7 @@ use Illuminate\Validation\ValidationServiceProvider;
 use Illuminate\Validation\Validator;
 use PHPUnit\Framework\TestCase;
 
-class ValidationPasswordRuleTest extends TestCase
+class PasswordRuleTest extends TestCase
 {
     public function testString()
     {

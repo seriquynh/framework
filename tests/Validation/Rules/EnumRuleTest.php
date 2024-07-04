@@ -1,9 +1,12 @@
 <?php
 
-namespace Illuminate\Tests\Validation;
+namespace Illuminate\Tests\Validation\Rules;
 
 use Illuminate\Container\Container;
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Tests\Validation\IntegerStatus;
+use Illuminate\Tests\Validation\PureEnum;
+use Illuminate\Tests\Validation\StringStatus;
 use Illuminate\Translation\ArrayLoader;
 use Illuminate\Translation\Translator;
 use Illuminate\Validation\Rules\Enum;
@@ -12,9 +15,9 @@ use Illuminate\Validation\Validator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-include_once 'Enums.php';
+include_once __DIR__.'/../Enums.php';
 
-class ValidationEnumRuleTest extends TestCase
+class EnumRuleTest extends TestCase
 {
     public function testValidationPassesWhenPassingCorrectEnum()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Tests\Validation;
+namespace Illuminate\Tests\Validation\Rules;
 
 use Illuminate\Container\Container;
 use Illuminate\Http\UploadedFile;
@@ -14,7 +14,7 @@ use Illuminate\Validation\ValidationServiceProvider;
 use Illuminate\Validation\Validator;
 use PHPUnit\Framework\TestCase;
 
-class ValidationImageFileRuleTest extends TestCase
+class ImageFileRuleTest extends TestCase
 {
     public function testDimensions()
     {

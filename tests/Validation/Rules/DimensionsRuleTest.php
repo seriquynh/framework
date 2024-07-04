@@ -1,12 +1,12 @@
 <?php
 
-namespace Illuminate\Tests\Validation;
+namespace Illuminate\Tests\Validation\Rules;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Dimensions;
 use PHPUnit\Framework\TestCase;
 
-class ValidationDimensionsRuleTest extends TestCase
+class DimensionsRuleTest extends TestCase
 {
     public function testItCorrectlyFormatsAStringVersionOfTheRule()
     {

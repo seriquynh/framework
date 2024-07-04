@@ -1,48 +1,48 @@
 <?php
 
-namespace Illuminate\Tests\Validation;
+namespace Illuminate\Tests\Validation\Rules;
 
 use Exception;
-use Illuminate\Validation\Rules\ProhibitedIf;
+use Illuminate\Validation\Rules\ExcludeIf;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
-class ValidationProhibitedIfTest extends TestCase
+class ExcludeIfRuleTest extends TestCase
 {
     public function testItReturnsStringVersionOfRuleWhenCast()
     {
-        $rule = new ProhibitedIf(function () {
+        $rule = new ExcludeIf(function () {
             return true;
         });
 
-        $this->assertSame('prohibited', (string) $rule);
+        $this->assertSame('exclude', (string) $rule);
 
-        $rule = new ProhibitedIf(function () {
+        $rule = new ExcludeIf(function () {
             return false;
         });
 
         $this->assertSame('', (string) $rule);
 
-        $rule = new ProhibitedIf(true);
+        $rule = new ExcludeIf(true);
 
-        $this->assertSame('prohibited', (string) $rule);
+        $this->assertSame('exclude', (string) $rule);
 
-        $rule = new ProhibitedIf(false);
+        $rule = new ExcludeIf(false);
 
         $this->assertSame('', (string) $rule);
     }
 
     public function testItValidatesCallableAndBooleanAreAcceptableArguments()
     {
-        new ProhibitedIf(false);
-        new ProhibitedIf(true);
-        new ProhibitedIf(fn () => true);
+        new ExcludeIf(false);
+        new ExcludeIf(true);
+        new ExcludeIf(fn () => true);
 
         foreach ([1, 1.1, 'phpinfo', new stdClass] as $condition) {
             try {
-                new ProhibitedIf($condition);
-                $this->fail('The ProhibitedIf constructor must not accept '.gettype($condition));
+                new ExcludeIf($condition);
+                $this->fail('The ExcludeIf constructor must not accept '.gettype($condition));
             } catch (InvalidArgumentException $exception) {
                 $this->assertEquals('The provided condition must be a callable or boolean.', $exception->getMessage());
             }
@@ -53,7 +53,7 @@ class ValidationProhibitedIfTest extends TestCase
     {
         $this->expectException(Exception::class);
 
-        serialize(new ProhibitedIf(function () {
+        serialize(new ExcludeIf(function () {
             return true;
         }));
     }

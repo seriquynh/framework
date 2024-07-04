@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Tests\Validation;
+namespace Illuminate\Tests\Validation\Rules;
 
 use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Eloquent\Model as Eloquent;
@@ -11,7 +11,7 @@ use Illuminate\Validation\Rules\Exists;
 use Illuminate\Validation\Validator;
 use PHPUnit\Framework\TestCase;
 
-class ValidationExistsRuleTest extends TestCase
+class ExistsRuleTest extends TestCase
 {
     /**
      * Setup the database schema.
@@ -59,7 +59,7 @@ class ValidationExistsRuleTest extends TestCase
         $rule->where('foo', 'bar');
         $this->assertSame('exists:mysql.users,column,foo,"bar"', (string) $rule);
 
-        $rule = new Exists('Illuminate\Tests\Validation\User', 'column');
+        $rule = new Exists(User::class, 'column');
         $rule->where('foo', 'bar');
         $this->assertSame('exists:users,column,foo,"bar"', (string) $rule);
 

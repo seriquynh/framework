@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Tests\Validation;
+namespace Illuminate\Tests\Validation\Rules;
 
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Container\Container;
@@ -14,7 +14,7 @@ use Illuminate\Validation\Validator;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
-class ValidationRuleCanTest extends TestCase
+class CanRuleTest extends TestCase
 {
     protected $container;
     protected $user;

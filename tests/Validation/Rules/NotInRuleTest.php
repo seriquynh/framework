@@ -1,15 +1,18 @@
 <?php
 
-namespace Illuminate\Tests\Validation;
+namespace Illuminate\Tests\Validation\Rules;
 
 use Illuminate\Tests\Validation\fixtures\Values;
+use Illuminate\Tests\Validation\IntegerStatus;
+use Illuminate\Tests\Validation\PureEnum;
+use Illuminate\Tests\Validation\StringStatus;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\NotIn;
 use PHPUnit\Framework\TestCase;
 
-include_once 'Enums.php';
+include_once __DIR__.'/../Enums.php';
 
-class ValidationNotInRuleTest extends TestCase
+class NotInRuleTest extends TestCase
 {
     public function testItCorrectlyFormatsAStringVersionOfTheRule()
     {
